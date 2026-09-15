@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Students</h1>
+    <a class="btn" href="{% url 'add_student' %}">+ Add Student</a>
+    {% if students %}
+    <table>
+        <tr><th>Name</th><th>Email</th><th>Course</th><th>Age</th><th>Action</th></tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.course }}</td>
+            <td>{{ student.age }}</td>
+            <td>
+                <form method="post" action="{% url 'delete_student' student.id %}">
+                    {% csrf_token %}
+                    <button class="btn danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No students added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
